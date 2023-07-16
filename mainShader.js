@@ -1,4 +1,4 @@
-export const bombVert = /*glsl*/`
+export const mainVS = /*glsl*/`
     varying vec3 vNormal; 
     varying vec3 vViewPosition;
     varying vec4 vFragPos;
@@ -9,7 +9,7 @@ export const bombVert = /*glsl*/`
         vFragPos = modelViewMatrix * vec4(position, 1.);
     }
 `
-export const bombFrag = /*glsl*/`
+export const mainFS = /*glsl*/`
     #include <common> 
     #include <lights_pars_begin>
     uniform vec3 uColor; 

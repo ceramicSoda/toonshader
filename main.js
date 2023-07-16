@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { bombVert, bombFrag } from "./bombToon.js";
+import { mainVS, mainFS } from "./mainShader.js";
+import { fuzeVS, fuzeFS } from "./fuzeShader.js";
 import './style.css';
 //-----------------------------THREE 
 let scene = new THREE.Scene();
@@ -10,6 +11,15 @@ let camera = new THREE.PerspectiveCamera(30, window.innerWidth/window.innerHeigh
 let renderer = new THREE.WebGLRenderer({alpha: true});
 let controls = new OrbitControls(camera, renderer.domElement);
 let bomb = {group: new THREE.Group()};
+//-----------------------------MATERIALS
+let fuzeMat = new THREE.ShaderMaterial({
+  transparent: true,
+  uniforms: {
+    u_Color: {value: new THREE.Color(0xCA9040)},
+    u_State: {type: "f", value: 1.},},
+  vertexShader: fuzeVS,
+  fragmentShader: fuzeFS
+})
 //-----------------------------GLTF
 loader.loadAsync("assets/bomb.glb")
   .catch(err => console.error(err))
