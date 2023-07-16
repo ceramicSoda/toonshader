@@ -1,11 +1,20 @@
 import * as THREE from 'three';
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import './style.css';
 //-----------------------------THREE 
 let scene = new THREE.Scene();
+let loader = new GLTFLoader();
 let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.001, 1000);
 let renderer = new THREE.WebGLRenderer({alpha: true});
 let controls = new OrbitControls(camera, renderer.domElement);
+let bomb = new THREE.Group();
+//-----------------------------GLTF
+loader.loadAsync("assets/bomb.glb")
+    .catch(err => console.error(err))
+    .then(gltf => {
+      scene.add(gltf.scene);
+  })
 //-----------------------------INIT
 document.body.appendChild(renderer.domElement); 
 renderer.setAnimationLoop(animate);
