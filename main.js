@@ -13,10 +13,9 @@ let controls = new OrbitControls(camera, renderer.domElement);
 let bomb = {group: new THREE.Group()};
 //-----------------------------MATERIALS
 let fuzeMat = new THREE.ShaderMaterial({
-  transparent: true,
   uniforms: {
-    u_Color: {value: new THREE.Color(0xCA9040)},
-    u_State: {type: "f", value: 1.},},
+    uColor: {value: new THREE.Color(0xAA9060)},
+    uState: {type: "f", value: 0.8},},
   vertexShader: fuzeVS,
   fragmentShader: fuzeFS
 })
@@ -29,7 +28,7 @@ loader.loadAsync("assets/bomb.glb")
     bomb.cap = gltf.scene.getObjectByName("cap");
     bomb.group.add(bomb.body,bomb.fuze,bomb.cap);
     bomb.body.material = new THREE.MeshToonMaterial({color: 0x554c9e});
-    bomb.fuze.material = new THREE.MeshToonMaterial({color: 0xCA9040});
+    bomb.fuze.material = fuzeMat;
     bomb.cap.material = new THREE.MeshToonMaterial({color: 0xA8A8A8});
 })
 //-----------------------------INIT
@@ -45,6 +44,9 @@ dlight01.lookAt(0,0,0);
 scene.add(bomb.group, alight, dlight01);
 //-----------------------------LOOP
 function animate () {
+  fuzeMat.uniforms.uState.value < 0
+    ? fuzeMat.uniforms.uState.value = 1
+    : fuzeMat.uniforms.uState.value -= 0.005;
   controls.update(); 
   renderer.render(scene, camera); 
 }
